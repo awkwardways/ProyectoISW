@@ -21,5 +21,5 @@ public partial class Usuario
 
     public byte[] Foto { get; set; } = null!;
 
-    public virtual ICollection<Propiedade> Propiedades { get; set; } = new List<Propiedade>();
+    public virtual ICollection<Propiedad> Propiedad { get; set; } = new List<Propiedad>();
 }
