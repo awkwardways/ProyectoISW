@@ -11,5 +11,5 @@ public partial class Imagene
 
     public byte[] Imagen { get; set; } = null!;
 
-    public virtual Propiedade IdPropiedadNavigation { get; set; } = null!;
+    public virtual Propiedad IdPropiedadNavigation { get; set; } = null!;
 }

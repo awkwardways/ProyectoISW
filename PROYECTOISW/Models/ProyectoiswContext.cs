@@ -21,7 +21,7 @@ public partial class ProyectoiswContext : DbContext
 
     public virtual DbSet<Imagene> Imagenes { get; set; }
 
-    public virtual DbSet<Propiedade> Propiedades { get; set; }
+    public virtual DbSet<Propiedad> Propiedades { get; set; }
 
     public virtual DbSet<Reseña> Reseñas { get; set; }
 
@@ -87,7 +87,7 @@ public partial class ProyectoiswContext : DbContext
                 .HasConstraintName("FK__Imagenes__Imagen__4D94879B");
         });
 
-        modelBuilder.Entity<Propiedade>(entity =>
+        modelBuilder.Entity<Propiedad>(static entity =>
         {
             entity.HasKey(e => e.IdPropiedad).HasName("PK__Propieda__5D2875B3EED636A3");
 
@@ -121,7 +121,7 @@ public partial class ProyectoiswContext : DbContext
                 .IsFixedLength()
                 .HasColumnName("Numero_Habitaciones");
             entity.Property(e => e.PrecioRenta).HasColumnName("Precio_Renta");
-            entity.Property(e => e.Sevicios)
+            entity.Property(e => e.Servicios)
                 .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.Superficie)
@@ -135,7 +135,8 @@ public partial class ProyectoiswContext : DbContext
                 .HasMaxLength(20)
                 .IsUnicode(false);
 
-            entity.HasOne(d => d.IdUsuarioNavigation).WithMany(p => p.Propiedades)
+            System.Linq.Expressions.Expression<Func<Usuario, IEnumerable<Propiedad>?>>? navigationExpression = static p => p.Propiedad;
+            entity.HasOne(static d => d.IdUsuarioNavigation).WithMany(navigationExpression)
                 .HasForeignKey(d => d.IdUsuario)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__Propiedad__Fecha__4BAC3F29");

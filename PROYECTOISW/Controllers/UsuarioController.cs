@@ -23,7 +23,7 @@ namespace PROYECTOISW.Controllers
         {
             return View();
         }
-
+        
         [HttpPost]
         public async Task<IActionResult> CrearUsuario(CrearUsuariosViewModel nuevo, IFormFile? Foto)
         {

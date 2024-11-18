@@ -11,7 +11,7 @@ public partial class Favorito
 
     public int IdPropiedad { get; set; }
 
-    public virtual Propiedade IdPropiedadNavigation { get; set; } = null!;
+    public virtual Propiedad IdPropiedadNavigation { get; set; } = null!;
 
     public virtual Usuario IdUsuarioNavigation { get; set; } = null!;
 }
