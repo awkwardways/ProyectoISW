@@ -1,53 +1,71 @@
 ﻿@model PROYECTOISW.Models.ViewModel.CrearUsuariosViewModel
 
+<div class="d-flex justify-content-center align-items-center vh-100" style="background-color: #f8f9fa;">
+    <div class="p-4 rounded" style="background-color: white; max-width: 500px; width: 100%;">
+        <h1 class="mb-5 text-center">Crear Cuenta</h1>
+        <form asp-action="CrearUsuario" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-<h1 class="mb-5">Crear cuenta</h1>
+            <!-- Campo Nombre Completo -->
+            <div class="mb-4">
+                <label asp-for="NombreCompleto" class="form-label">Nombre Completo</label>
+                <input asp-for="NombreCompleto" class="form-control" type="text" placeholder="Ingresar Nombre Completo" />
+                <span asp-validation-for="NombreCompleto" class="text-danger"></span>
+            </div>
 
-<form asp-action="CrearUsuario" enctype="multipart/form-data">
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <div class="mb-3">
-        <label asp-for="NombreCompleto" class="form-label"></label>
-        <input asp-for="NombreCompleto" class="form-control" type="text" placeholder="Ingresar Nombre Nompleto"/>
-        <span asp-validation-for="NombreCompleto" class="text-danger"></span>
+            <!-- Campo Correo Electronico -->
+            <div class="mb-4">
+                <label asp-for="CorreoElectronico" class="form-label">Correo Electrónico</label>
+                <input asp-for="CorreoElectronico" class="form-control" type="email" placeholder="Ingresar Correo Electrónico" />
+                <span asp-validation-for="CorreoElectronico" class="text-danger"></span>
+            </div>
+
+            <!-- Campo de Contraseña -->
+            <div class="mb-4">
+                <label asp-for="Contraseña" class="form-label">Contraseña</label>
+                <input asp-for="Contraseña" class="form-control" type="password" placeholder="Ingresar Contraseña" />
+                <span asp-validation-for="Contraseña" class="text-danger"></span>
+            </div>
+
+            <!-- Campo de RContraseña (Confirmacion de contraseñea)-->
+            <div class="mb-4">
+                <label asp-for="RContraseña" class="form-label">Confirmar Contraseña</label>
+                <input asp-for="RContraseña" class="form-control" type="password" placeholder="Confirmar Contraseña" />
+                <span asp-validation-for="RContraseña" class="text-danger"></span>
+            </div>
+
+            <!-- Campo de Telefono -->
+            <div class="mb-4">
+                <label asp-for="Telefono" class="form-label">Teléfono</label>
+                <input asp-for="Telefono" class="form-control" type="tel" placeholder="Ingresar Teléfono" />
+                <span asp-validation-for="Telefono" class="text-danger"></span>
+            </div>
+
+            <!-- Carga de imagenes -->
+            <div class="mb-4">
+                <label asp-for="Foto" class="form-label">Imagen</label>
+                <input asp-for="Foto" class="form-control" type="file" accept="image/*" />
+            </div
+
+            <!-- Boton de Enviar -->
+            <div class="mb-4">
+                <button type="submit" class="btn btn-lg w-100" style="background-color: #28a745; color: white;">Enviar</button>
+            </div>
+
+
+            @if (!string.IsNullOrEmpty(ViewBag.Contrase))
+            {
+                <div class="alert alert-danger" role="alert">
+                    @ViewBag.Contrase
+                </div>
+            }
+        </form>
     </div>
-    <div class="mb-3">
-        <label asp-for="CorreoElectronico" class="form-label"></label>
-        <input asp-for="CorreoElectronico" class="form-control" type="email" placeholder="Ingresar Correo Electrónico"/>
-        <span asp-validation-for="CorreoElectronico" class="text-danger"></span>
-    </div>
-    <div class="mb-3">
-        <label asp-for="Contraseña" class="form-label"></label>
-        <input asp-for="Contraseña" class="form-control" type="password" placeholder="Ingresar Contraseña"/>
-        <span asp-validation-for="Contraseña" class="text-danger"></span>
-    </div>
-    <div class="mb-3">
-        <label asp-for="RContraseña" class="form-label"></label>
-        <input asp-for="RContraseña" class="form-control" type="password" placeholder="Ingresar Contraseña" />
-        <span asp-validation-for="RContraseña" class="text-danger"></span>
-    </div>
-    <div class="mb-3">
-        <label asp-for="Telefono" class="form-label"></label>
-        <input asp-for="Telefono" class="form-control" type="tel" placeholder="Ingresar Teléfono"/>
-        <span asp-validation-for="Telefono" class="text-danger"></span>
-    </div>
-    <div class="mb-3">
-        <label asp-for="Foto" class="form-label"></label>
-        <input asp-for="Foto" class="form-control" type="file" accept="image/*" />
-    </div>
-    <div class="mb-3">
-        <button type="submit" class="btn btn-primary">Enviar</button>
-    </div>
-    @if (!string.IsNullOrEmpty(ViewBag.Contrase))
-    {
-        <div class="alert alert-danger" role="alert">
-            @ViewBag.Contrase
-        </div>
+</div>
+
+@section Scripts
+{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
- </form>
-
- @section Scripts
- {
-     @{
-         await Html.RenderPartialAsync("_ValidationScriptsPartial");
-      }
- }
+}

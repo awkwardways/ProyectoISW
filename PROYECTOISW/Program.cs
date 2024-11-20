@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using PROYECTOISW.Models;
+using PROYECTOISW.Servicios;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +10,7 @@ builder.Services.AddDbContext<ProyectoiswContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("MiDB"));
 });
+builder.Services.AddScoped<IServicioCorreo, ServicioCorreo>();
 
 var app = builder.Build();
 

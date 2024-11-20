@@ -1,35 +1,53 @@
 ﻿@model PROYECTOISW.Models.ViewModel.IniciarSesionViewModel
 
-<h1>Iniciar Sesión</h1>
+<div class="d-flex justify-content-center align-items-center vh-100" style="background-color: white;">
+    <div class="login-container p-5" style="width: 100%; max-width: 600px;">
 
-<form asp-action="IniciarSesion">
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <div class="mb-5">
-        <label asp-for="Correo" class="form-label"></label>
-        <input asp-for="Correo" class="form-control" type="email" placeholder="Ingresar Correo"/>
-        <span asp-validation-for="Correo" class="text-danger"></span>
+        <!-- Ajustar ancho máximo -->
+        <h1 class="text-center mb-4">Iniciar Sesión</h1>
+        <form asp-action="IniciarSesion">
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+            <!-- Campo de Correo -->
+            <div class="mb-4">
+                <label asp-for="Correo" class="form-label"></label>
+                <input asp-for="Correo" class="form-control form-control-lg" type="email" placeholder="Ingresar Correo" />
+                <span asp-validation-for="Correo" class="text-danger"></span>
+            </div>
+
+            <!-- Campo de Contraseña -->
+            <div class="mb-4">
+                <label asp-for="Contraseña" class="form-label"></label>
+                <input asp-for="Contraseña" class="form-control form-control-lg" type="password" placeholder="Ingresar Contraseña" />
+                <span asp-validation-for="Contraseña" class="text-danger"></span>
+            </div>
+
+            <!-- Olvidé mi Contraseña -->
+            <div class="mb-4 text-center">
+                <a asp-action="RecuperarCon" class="text-decoration-none" style="color: #28a745;">Olvidé mi Contraseña</a>
+            </div>
+
+            <!-- Botón de Ingresar -->
+            <div class="mb-4">
+                <button type="submit" class="btn btn-lg w-100" style="background-color: #28a745; color: white;">Ingresar</button>
+            </div>
+
+            <!-- Crear Cuenta -->
+            <div class="text-center">
+                <a asp-action="CrearUsuario" class="text-decoration-none" style="color: #28a745;">Crear Cuenta</a>
+            </div>
+
+            <!-- Mensaje de error -->
+            @if (!string.IsNullOrEmpty(ViewBag.Invalido))
+            {
+                <div class="alert alert-danger mt-3" role="alert">
+                    @ViewBag.Invalido
+                </div>
+            }
+        </form>
     </div>
-    <div class="mb-5">
-        <label asp-for="Contraseña" class="form-label"></label>
-        <input asp-for="Contraseña" class="form-control" type="password" placeholder="Ingresar Contraseña" />
-        <span asp-validation-for="Contraseña" class="text-danger"></span>
-    </div>
-    <div class="mb-5">
-       <a asp-action="RecuperarCon" class="">Olvide mi Contraseña</a>
-    </div>
-    <div class="mb-5">
-        <button type="submit" class="btn btn-primary">Ingresar</button>
-    </div>
-    <div class="mb-5">
-        <a asp-action="CrearUsuario" class="">Crear Cuenta</a>
-    </div>
-    @if (!string.IsNullOrEmpty(ViewBag.Invalido))
-    {
-        <div class="alert alert-danger" role="alert">
-            @ViewBag.Invalido
-        </div>
-    }
-</form>
+</div>
+
 
 @section Scripts
 {
