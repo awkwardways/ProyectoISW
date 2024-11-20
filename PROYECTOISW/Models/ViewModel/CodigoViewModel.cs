@@ -2,11 +2,13 @@
 
 namespace PROYECTOISW.Models.ViewModel
 {
-    public class RecuperarConViewModel
+    public class CodigoViewModel
     {
         [Required(ErrorMessage = "El campo es requerido")]
-        [EmailAddress(ErrorMessage = "El correo no es valido")]
-        [Display(Name = "Correo Electrónico")]
+        [Display(Name = "Ingresa el código")]
+        public string? Token { get; set; }
+        [Required]
+        [EmailAddress]
         public string? Correo { get; set; }
     }
 }

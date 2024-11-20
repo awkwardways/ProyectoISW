@@ -1,9 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http.Timeouts;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using PROYECTOISW.Models;
 using PROYECTOISW.Models.ViewModel;
+using PROYECTOISW.Servicios;
 using System.IO;
 
 namespace PROYECTOISW.Controllers
@@ -11,19 +14,25 @@ namespace PROYECTOISW.Controllers
     public class UsuarioController : Controller
     {
         private readonly ProyectoiswContext _contexto;
+        private readonly IServicioCorreo _servicioCorreo;
 
-        public UsuarioController(ProyectoiswContext contexto, IWebHostEnvironment hostingEnvironment)
+        public UsuarioController(ProyectoiswContext contexto, IServicioCorreo servicioCorreo)
         {
             _contexto = contexto;
+            _servicioCorreo = servicioCorreo;
         }
-
+        public IActionResult Index()
+        {
+            //Muestra las opciones Registrarse o iniciar sesión
+            return View();
+        }
         #region Crear
         [HttpGet]
         public IActionResult CrearUsuario()
         {
             return View();
         }
-        
+
         [HttpPost]
         public async Task<IActionResult> CrearUsuario(CrearUsuariosViewModel nuevo, IFormFile? Foto)
         {
@@ -42,7 +51,13 @@ namespace PROYECTOISW.Controllers
                 ViewBag.Contrase = "Las contraseñas no coinciden.";
                 return View(nuevo);
             }
-
+            string correoAlumno = "@Alumno.ipn.mx";
+            if (correoAlumno == "")
+            {
+                nuevo.Tipo = "A";
+            }
+            else
+                nuevo.Tipo = "P";
             if (ModelState.IsValid)
             {
                 var crear = new Usuario
@@ -56,7 +71,7 @@ namespace PROYECTOISW.Controllers
                 };
                 _contexto.Usuarios.Add(crear);
                 await _contexto.SaveChangesAsync();
-                return RedirectToAction("Index","Home"); // Redirigir después de guardar
+                return RedirectToAction("Index", "Home"); // Redirigir después de guardar
             }
 
             // Imprimir errores de validación
@@ -86,7 +101,7 @@ namespace PROYECTOISW.Controllers
                 ViewBag.Invalido = "Usuario no encontrado";
                 return View(entrar);
             }
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("CrearPropiedad", "Propiedades");
         }
         #endregion
         #region Recuperar
@@ -98,9 +113,61 @@ namespace PROYECTOISW.Controllers
         [HttpPost]
         public IActionResult RecuperarCon(RecuperarConViewModel recuperar)
         {
-
+            if (ModelState.IsValid)
+            {
+                var encontrado = _servicioCorreo.BuscarCorreo(recuperar.Correo);
+                if (encontrado == null)
+                {
+                    ViewBag.Invalido = "Este correo no esta asociado a una cuenta";
+                    return View(recuperar);
+                }
+                
+                _servicioCorreo.GuardarToken(GenerarToken(), encontrado);
+                //Mandar alerta de nuevo token
+                return View("ValidarToken");
+            }
+            return View();
+        }
+        [HttpGet]
+        public IActionResult ValidarToken(string token, string correo)
+        {
+            var model = new CodigoViewModel { Token = token, Correo = correo };
+            return View(model);
+        }
+        [HttpPost]
+        public IActionResult ValidarToken(CodigoViewModel codigo)
+        { 
+            if (ModelState.IsValid)
+            {
+                //Busca el token con un correo y tokens validos 
+                if (_servicioCorreo.ValidarCon(codigo.Correo,codigo.Token) == false)
+                {
+                    ViewBag.Invalido = "Codigo no valido.";
+                    return View(codigo);
+                }
+                ViewBag.Contraseñas = true; 
+                return View(codigo);
+            }
             return View();
         }
         #endregion
+        [HttpGet]
+        public IActionResult NuevaCon(string token, string correo)
+        {
+            var model = new CodigoViewModel { Token = token, Correo = correo };
+            return View(model);
+        }
+        [HttpPost]
+        public IActionResult NuevaCon(NuevaConViewModel crear)
+        {
+
+            return View();
+        }
+        public string GenerarToken()
+        {
+            Random random = new Random();
+            int token = random.Next(0,10000);
+            return token.ToString();
+        }
     }
 }
