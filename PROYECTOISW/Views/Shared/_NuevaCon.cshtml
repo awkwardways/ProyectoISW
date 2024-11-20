@@ -1,0 +1,26 @@
+﻿@model PROYECTOISW.Models.ViewModel.NuevaConViewModel
+<h1>Cmabiar Contraseña</h1>
+
+<form asp-action="NuevaCon">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="mb-5">
+        <label asp-for="Nueva" class="form-label"></label>
+        <input asp-for="Nueva" class="form-control" type="password" placeholder="Ingresar contraseña" />
+        <span asp-validation-for="Nueva" class="text-danger"></span>
+    </div>
+    <div class="mb-5">
+        <label asp-for="Confirmar" class="form-label"></label>
+        <input asp-for="Confirmar" class="form-control" type="password" placeholder="Confirmar contraseña" />
+        <span asp-validation-for="Confirmar" class="text-danger"></span>
+    </div>
+    <div class="mb-5">
+        <button type="submit" class="btn btn-secondary">Confirmar</button>
+    </div>
+</form>
+
+@section Scripts
+{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
