@@ -1,5 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PROYECTOISW.Models;
+//Agregar 
+using System.Net;
+using System.Net.Mail;
 
 namespace PROYECTOISW.Servicios
 {
@@ -38,6 +41,32 @@ namespace PROYECTOISW.Servicios
         public void ActualizarCon(Usuario usuario, string nuvaCon)
         {
             throw new NotImplementedException();
+        }
+
+        public void EnviarCorreo(string destino, string token)
+        {
+            try
+            {
+                MailMessage msg = new MailMessage("hernandez.granados.johan.ipn@gmail.com", destino);
+                msg.IsBodyHtml = true;
+                msg.Subject = "Recuperación de Contraseña";
+                string body = $"Debido a su peticion de restablecimiento de contraseña le hemos enviado este correo.<br>Su código de ruperacion es: <br><b>{token}</b>";
+                msg.Body = body;
+
+                SmtpClient smtp = new SmtpClient();
+                smtp.Host = "smtp.gmail.com";
+                smtp.Port = 587;
+                smtp.EnableSsl = true;
+                smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
+                smtp.UseDefaultCredentials = false;
+                smtp.Credentials = new NetworkCredential("hernandez.granados.johan.ipn@gmail.com", "kzvl kqnd krhb uwyn");
+                smtp.Send(msg);
+                smtp.Dispose();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message.ToString());
+            }
         }
     }
 }

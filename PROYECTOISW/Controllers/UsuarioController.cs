@@ -132,17 +132,20 @@ namespace PROYECTOISW.Controllers
         [HttpPost]
         public IActionResult RecuperarCon(RecuperarConViewModel recuperar)
         {
+            string token = GenerarToken();
             if (ModelState.IsValid)
             {
                 var encontrado = _servicioCorreo.BuscarCorreo(recuperar.Correo);
+
                 if (encontrado == null)
                 {
                     ViewBag.Invalido = "Este correo no esta asociado a una cuenta";
                     return View(recuperar);
                 }
-                
-                _servicioCorreo.GuardarToken(GenerarToken(), encontrado);
+                //Genera toquen
+                _servicioCorreo.GuardarToken(token, encontrado);
                 //Mandar alerta de nuevo token
+                _servicioCorreo.EnviarCorreo(encontrado, token);
                 return View("ValidarToken");
             }
             return View();
