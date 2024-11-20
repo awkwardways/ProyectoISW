@@ -37,18 +37,18 @@ namespace PROYECTOISW.Controllers
         [HttpPost]
         public async Task<IActionResult> CrearPropiedad(CrearPropiedadViewModel nuevo)
         {
-            int id = 0;
+            
             if (ModelState.IsValid)
             {
                 //Deseralizar una cookie
                 var claimsIdentity = User.Identity as ClaimsIdentity;
                 if (claimsIdentity != null)
                 {
-                    id = int.Parse(claimsIdentity.FindFirst("Id_Usuario")?.Value);
+                    var  id = int.Parse(claimsIdentity.FindFirst("Id_Usuario")?.Value);
 
                     var crear = new Propiedad
                     {
-                        Estado = "D",
+                        Estado = "H",
                         IdUsuario = id,
                         Titulo = nuevo.Titulo,
                         Descripcion = nuevo.Descripcion,
@@ -67,11 +67,11 @@ namespace PROYECTOISW.Controllers
                     await _contexto.SaveChangesAsync();
                     return RedirectToAction("Index", "Home");
                 }
-                //    var errors = ModelState.Values.SelectMany(v => v.Errors);
-                //foreach (var error in errors)
-                //{
-                //    Console.WriteLine(error.ErrorMessage);
-                //}
+                var errors = ModelState.Values.SelectMany(v => v.Errors);
+                foreach (var error in errors)
+                {
+                    Console.WriteLine(error.ErrorMessage);
+                }
             }
             return View(nuevo);
         }
