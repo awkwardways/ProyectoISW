@@ -8,6 +8,11 @@ using PROYECTOISW.Models;
 using PROYECTOISW.Models.ViewModel;
 using PROYECTOISW.Servicios;
 using System.IO;
+//Cookies
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
+using System.Security.Claims;
+using System.Net;
 
 namespace PROYECTOISW.Controllers
 {
@@ -101,6 +106,20 @@ namespace PROYECTOISW.Controllers
                 ViewBag.Invalido = "Usuario no encontrado";
                 return View(entrar);
             }
+            //Agrega el usuario a cookie
+            var claims = new List<Claim>
+            {
+                new Claim("Id_Usuario", usuario.IdUsuario.ToString()),
+                new Claim(ClaimTypes.Name, usuario.NombreCompleto),
+                new Claim(ClaimTypes.Email, usuario.CorreoElectronico),
+                new Claim(ClaimTypes.MobilePhone, usuario.Telefono),
+            };
+
+            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, 
+                new ClaimsPrincipal(claimsIdentity));
+
             return RedirectToAction("CrearPropiedad", "Propiedades");
         }
         #endregion

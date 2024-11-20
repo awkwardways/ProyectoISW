@@ -2,8 +2,12 @@ using Microsoft.AspNetCore.Mvc;
 using PROYECTOISW.Models;
 using System.Diagnostics;
 
+//Using agregado
+using Microsoft.AspNetCore.Authorization;
+
 namespace PROYECTOISW.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;

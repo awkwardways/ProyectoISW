@@ -6,8 +6,16 @@ using PROYECTOISW.Models;
 using PROYECTOISW.Models.ViewModel;
 using System.IO;
 
+//Agregar using
+using Microsoft.AspNetCore.Authorization;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using Newtonsoft.Json.Linq;
+using System.Security.Claims;
+
 namespace PROYECTOISW.Controllers
 {
+    [Authorize]
     public class PropiedadesController : Controller
     {
         private readonly ProyectoiswContext _contexto;
@@ -27,38 +35,44 @@ namespace PROYECTOISW.Controllers
         //TODO: Validar que el usuario haya iniciado sesion y sea propietario.
         //TODO2: Validar la entrada de datos.
         [HttpPost]
-        public async Task<IActionResult> CrearPropiedad(CrearPropiedadViewModel nuevo  ) 
+        public async Task<IActionResult> CrearPropiedad(CrearPropiedadViewModel nuevo)
         {
+            int id = 0;
             if (ModelState.IsValid)
             {
-                var crear = new Propiedad
+                //Deseralizar una cookie
+                var claimsIdentity = User.Identity as ClaimsIdentity;
+                if (claimsIdentity != null)
                 {
-                    Estado = "D",
-                    IdUsuario = 1,
-                    Titulo = nuevo.Titulo,
-                    Descripcion = nuevo.Descripcion,
-                    TipoPropiedad = nuevo.TipoPropiedad,
-                    PrecioRenta = nuevo.PrecioRenta,
-                    Superficie = nuevo.Superficie,
-                    NumeroHabitaciones = nuevo.NumeroHabitaciones,
-                    NumeroBaños = nuevo.NumeroBaños,
-                    Servicios = nuevo.Servicios,
-                    Direccion = nuevo.Direccion,
-                    Distancia = nuevo.Distancia,
-                    CondicionesEspeciales = nuevo.CondicionesEspeciales,
-                    FechaPublicacion = DateTime.Now
-                };
-                _contexto.Propiedades.Add(crear);
-                await _contexto.SaveChangesAsync();
-                return RedirectToAction("Index","Home");
-            }
+                    id = int.Parse(claimsIdentity.FindFirst("Id_Usuario")?.Value);
 
-            var errors = ModelState.Values.SelectMany(v => v.Errors);
-            foreach (var error in errors)
-            {
-                Console.WriteLine(error.ErrorMessage);
+                    var crear = new Propiedad
+                    {
+                        Estado = "D",
+                        IdUsuario = id,
+                        Titulo = nuevo.Titulo,
+                        Descripcion = nuevo.Descripcion,
+                        TipoPropiedad = nuevo.TipoPropiedad,
+                        PrecioRenta = nuevo.PrecioRenta,
+                        Superficie = nuevo.Superficie,
+                        NumeroHabitaciones = nuevo.NumeroHabitaciones,
+                        NumeroBaños = nuevo.NumeroBaños,
+                        Sevicios = nuevo.Servicios,
+                        Direccion = nuevo.Direccion,
+                        Distancia = nuevo.Distancia,
+                        CondicionesEspeciales = nuevo.CondicionesEspeciales,
+                        FechaPublicacion = DateTime.Now
+                    };
+                    _contexto.Propiedades.Add(crear);
+                    await _contexto.SaveChangesAsync();
+                    return RedirectToAction("Index", "Home");
+                }
+                //    var errors = ModelState.Values.SelectMany(v => v.Errors);
+                //foreach (var error in errors)
+                //{
+                //    Console.WriteLine(error.ErrorMessage);
+                //}
             }
-
             return View(nuevo);
         }
         #endregion

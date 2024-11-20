@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using PROYECTOISW.Models;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using PROYECTOISW.Servicios;
+using Newtonsoft.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +14,16 @@ builder.Services.AddDbContext<ProyectoiswContext>(options =>
 });
 builder.Services.AddScoped<IServicioCorreo, ServicioCorreo>();
 
+//Agregar Autenticacion con cookies
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.Cookie.Name = "MiCookie";
+        options.ExpireTimeSpan = TimeSpan.FromMinutes(15);
+        options.LoginPath = "/Usuario/IniciarSesion";
+        options.AccessDeniedPath = "/Usuario/IniciarSesion";
+    });
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -22,6 +34,9 @@ if (!app.Environment.IsDevelopment())
 app.UseStaticFiles();
 
 app.UseRouting();
+
+//Agregar 
+app.UseAuthentication();
 
 app.UseAuthorization();
 
