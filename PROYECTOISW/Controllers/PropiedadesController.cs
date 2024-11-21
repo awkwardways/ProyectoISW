@@ -57,7 +57,7 @@ namespace PROYECTOISW.Controllers
                         Superficie = nuevo.Superficie,
                         NumeroHabitaciones = nuevo.NumeroHabitaciones,
                         NumeroBaños = nuevo.NumeroBaños,
-                        Sevicios = nuevo.Servicios,
+                        Servicios = nuevo.Servicios,
                         Direccion = nuevo.Direccion,
                         Distancia = nuevo.Distancia,
                         CondicionesEspeciales = nuevo.CondicionesEspeciales,

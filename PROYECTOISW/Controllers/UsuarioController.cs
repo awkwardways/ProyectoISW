@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using System.Security.Claims;
 using System.Net;
+using System.Text.RegularExpressions;
 
 namespace PROYECTOISW.Controllers
 {
@@ -50,19 +51,28 @@ namespace PROYECTOISW.Controllers
                 }
             }
 
+            if (nuevo.Tipo == "estudiante")
+            {
+                nuevo.Tipo = "A";
+            }
+            else if (nuevo.Tipo == "propietario")
+            {
+                nuevo.Tipo = "P";
+            }
+            // Validación de la contraseña
+            string pattern = @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$";
+            if (!Regex.IsMatch(nuevo.Contraseña, pattern))
+            {
+                ViewBag.Contrase = "La contraseña debe tener al menos 8 caracteres, incluyendo 1 carácter especial, 1 letra mayúscula y 1 letra minúscula.";
+                return View(nuevo);
+            }
+            
             // Verificar si las contraseñas coinciden antes de validar el modelo
             if (nuevo.RContraseña != nuevo.Contraseña)
             {
                 ViewBag.Contrase = "Las contraseñas no coinciden.";
                 return View(nuevo);
             }
-            string correoAlumno = "@Alumno.ipn.mx";
-            if (correoAlumno == "")
-            {
-                nuevo.Tipo = "A";
-            }
-            else
-                nuevo.Tipo = "P";
             if (ModelState.IsValid)
             {
                 var crear = new Usuario

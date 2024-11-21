@@ -17,6 +17,20 @@
             <form asp-action="CrearUsuario" enctype="multipart/form-data">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
+
+                <!-- Escoger tipo de usuario -->
+                <div class="mb-4">
+                    <h2>Registrarse como</h2>
+                    <div class="form-check">
+                        <input asp-for="Tipo" class="form-check-input" type="radio" id="estudiante" value="A" />
+                        <label class="form-check-label" for="estudiante">Estudiante</label>
+                    </div>
+                    <div class="form-check">
+                        <input asp-for="Tipo" class="form-check-input" type="radio" id="propietario" value="P" />
+                        <label class="form-check-label" for="propietario">Propietario</label>
+                    </div>
+                    <span asp-validation-for="Tipo" class="text-danger"></span>
+                </div>
                 <!-- Campo Nombre Completo -->
                 <div class="mb-4">
                     <label asp-for="NombreCompleto" class="form-label">Nombre Completo</label>
@@ -29,6 +43,11 @@
                     <label asp-for="CorreoElectronico" class="form-label">Correo Electrónico</label>
                     <input asp-for="CorreoElectronico" class="form-control" type="email" placeholder="Ingresar Correo Electrónico" />
                     <span asp-validation-for="CorreoElectronico" class="text-danger"></span>
+                </div>
+
+                <!-- Mensaje de correo -->
+                <div class="mb-1">
+                    <a class="text-decoration-none" style="color: #28a745;">Si eres estudiante usa el correo institucional</a>
                 </div>
 
                 <!-- Campo de Contraseña -->

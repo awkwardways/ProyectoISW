@@ -121,7 +121,7 @@ public partial class ProyectoiswContext : DbContext
                 .IsFixedLength()
                 .HasColumnName("Numero_Habitaciones");
             entity.Property(e => e.PrecioRenta).HasColumnName("Precio_Renta");
-            entity.Property(e => e.Sevicios)
+            entity.Property(e => e.Servicios)
                 .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.Superficie)
