@@ -37,10 +37,6 @@ namespace PROYECTOISW.Controllers
         [HttpPost]
         public async Task<IActionResult> CrearPropiedad(CrearPropiedadViewModel nuevo)
         {
-            if (nuevo.fotoPropiedad == null || nuevo.fotoPropiedad.Length == 0) 
-            {
-                ModelState.AddModelError("fotoPropiedad", "Debe subir una foto.");
-            }
             if (ModelState.IsValid)
             {
                 //Deseralizar una cookie
@@ -48,8 +44,8 @@ namespace PROYECTOISW.Controllers
                 if (claimsIdentity != null)
                 {
                     var  id = int.Parse(claimsIdentity.FindFirst("Id_Usuario")?.Value);
-                    System.Diagnostics.Debug.WriteLine("Se subieron fotos\n");
-                    var crear = new Propiedad
+                    // System.Diagnostics.Debug.WriteLine("Se subieron fotos\n");
+                    var crear = new Propiedade
                     {
                         Estado = "H",
                         IdUsuario = id,
@@ -68,17 +64,38 @@ namespace PROYECTOISW.Controllers
                     };
                     _contexto.Propiedades.Add(crear);
                     await _contexto.SaveChangesAsync();
-                    if (nuevo.fotoPropiedad != null && nuevo.fotoPropiedad.Length > 0)
+
+                    //if (nuevo.archivoImagen != null && nuevo.archivoImagen.Length > 0)
+                    //{
+                    //    using (var memoryStream = new MemoryStream())
+                    //    {
+                    //        await nuevo.archivoImagen.CopyToAsync(memoryStream);
+                    //        var imagenData = new Imagene
+                    //        {
+                    //            IdPropiedad = crear.IdPropiedad,
+                    //            Imagen = memoryStream.ToArray()
+                    //        };
+                    //        _contexto.Imagenes.Add(imagenData);
+                    //        await _contexto.SaveChangesAsync();
+                    //    }
+                    //}
+                    if(nuevo.archivosImagenes != null & nuevo.archivosImagenes.Count > 0) 
                     {
-                        using (var memoryStream = new MemoryStream())
+                        foreach (var foto in nuevo.archivosImagenes) 
                         {
-                            await nuevo.fotoPropiedad.CopyToAsync(memoryStream);
-                            var foto = new Imagene
+                            if (foto.Length > 0) 
                             {
-                                IdPropiedad = crear.IdPropiedad,
-                                Imagen = memoryStream.ToArray()
-                            };
-                            _contexto.Imagenes.Add(foto);
+                                using (var memoryStream = new MemoryStream()) 
+                                {
+                                    await foto.CopyToAsync(memoryStream);
+                                    var imagen = new Imagene
+                                    {
+                                        IdPropiedad = crear.IdPropiedad,
+                                        Imagen = memoryStream.ToArray()
+                                    };
+                                    _contexto.Imagenes.Add(imagen);
+                                }
+                            }
                         }
                         await _contexto.SaveChangesAsync();
                     }

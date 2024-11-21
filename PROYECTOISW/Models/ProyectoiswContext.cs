@@ -21,7 +21,7 @@ public partial class ProyectoiswContext : DbContext
 
     public virtual DbSet<Imagene> Imagenes { get; set; }
 
-    public virtual DbSet<Propiedad> Propiedades { get; set; }
+    public virtual DbSet<Propiedade> Propiedades { get; set; }
 
     public virtual DbSet<Reseña> Reseñas { get; set; }
 
@@ -29,7 +29,7 @@ public partial class ProyectoiswContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Data Source=localhost;Initial Catalog=PROYECTOISW;Integrated Security=True;Trust Server Certificate=True");
+        => optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=PROYECTOISW;Integrated Security=True;Trust Server Certificate=True");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -47,12 +47,12 @@ public partial class ProyectoiswContext : DbContext
             entity.HasOne(d => d.IdPropiedadNavigation).WithMany()
                 .HasForeignKey(d => d.IdPropiedad)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Citas__Id_Propie__6EF57B66");
+                .HasConstraintName("FK__Citas__Id_Propie__5535A963");
 
             entity.HasOne(d => d.IdUsuarioNavigation).WithMany()
                 .HasForeignKey(d => d.IdUsuario)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Citas__Id_Usuari__6FE99F9F");
+                .HasConstraintName("FK__Citas__Id_Usuari__5629CD9C");
         });
 
         modelBuilder.Entity<Favorito>(entity =>
@@ -76,20 +76,20 @@ public partial class ProyectoiswContext : DbContext
 
         modelBuilder.Entity<Imagene>(entity =>
         {
-            entity.HasNoKey();
+            entity.HasKey(e => e.IdFoto);
 
             entity.Property(e => e.IdFoto).HasColumnName("Id_Foto");
             entity.Property(e => e.IdPropiedad).HasColumnName("Id_Propiedad");
 
-            entity.HasOne(d => d.IdPropiedadNavigation).WithMany()
+            entity.HasOne(d => d.IdPropiedadNavigation).WithMany(p => p.Imagenes)
                 .HasForeignKey(d => d.IdPropiedad)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__Imagenes__Imagen__4D94879B");
         });
 
-        modelBuilder.Entity<Propiedad>(static entity =>
+        modelBuilder.Entity<Propiedade>(entity =>
         {
-            entity.HasKey(e => e.IdPropiedad).HasName("PK__Propieda__5D2875B3EED636A3");
+            entity.HasKey(e => e.IdPropiedad).HasName("PK__Propieda__5D2875B38046604A");
 
             entity.Property(e => e.IdPropiedad).HasColumnName("Id_Propiedad");
             entity.Property(e => e.CondicionesEspeciales)
@@ -135,8 +135,7 @@ public partial class ProyectoiswContext : DbContext
                 .HasMaxLength(20)
                 .IsUnicode(false);
 
-            System.Linq.Expressions.Expression<Func<Usuario, IEnumerable<Propiedad>?>>? navigationExpression = static p => p.Propiedad;
-            entity.HasOne(static d => d.IdUsuarioNavigation).WithMany(navigationExpression)
+            entity.HasOne(d => d.IdUsuarioNavigation).WithMany(p => p.Propiedades)
                 .HasForeignKey(d => d.IdUsuario)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__Propiedad__Fecha__4BAC3F29");
@@ -167,7 +166,7 @@ public partial class ProyectoiswContext : DbContext
 
         modelBuilder.Entity<Usuario>(entity =>
         {
-            entity.HasKey(e => e.IdUsuario).HasName("PK__Usuarios__63C76BE2DEA1A1A6");
+            entity.HasKey(e => e.IdUsuario).HasName("PK__Usuarios__63C76BE22C510725");
 
             entity.Property(e => e.IdUsuario).HasColumnName("Id_Usuario");
             entity.Property(e => e.Contraseña)

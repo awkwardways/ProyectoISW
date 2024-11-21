@@ -66,7 +66,7 @@ namespace PROYECTOISW.Models.ViewModel
             };
         }
         [Required(ErrorMessage = "El campo es obligatorio")]
-        [Display(Name = "Condiciones Especiales")]
-        public IFormFile? fotoPropiedad { get; set; }
+        [Display(Name = "fotoPropiedad")]
+        public List<IFormFile> archivosImagenes { get; set; }
     }
 }
