@@ -72,7 +72,7 @@ namespace PROYECTOISW.Controllers
                     CorreoElectronico = nuevo.CorreoElectronico,
                     Contraseña = Cifrado.GetSHA256(nuevo.Contraseña),
                     Telefono = nuevo.Telefono,
-                    Foto = nuevo.Foto
+                    Foto = nuevo.Foto 
                 };
                 _contexto.Usuarios.Add(crear);
                 await _contexto.SaveChangesAsync();
