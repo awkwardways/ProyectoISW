@@ -70,7 +70,7 @@ namespace PROYECTOISW.Controllers
                     Tipo = "A",
                     NombreCompleto = nuevo.NombreCompleto,
                     CorreoElectronico = nuevo.CorreoElectronico,
-                    Contraseña = nuevo.Contraseña,
+                    Contraseña = Cifrado.GetSHA256(nuevo.Contraseña),
                     Telefono = nuevo.Telefono,
                     Foto = nuevo.Foto
                 };
