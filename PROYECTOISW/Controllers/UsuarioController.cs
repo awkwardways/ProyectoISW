@@ -98,29 +98,33 @@ namespace PROYECTOISW.Controllers
         [HttpPost]
         public async Task<IActionResult> IniciarSesion(IniciarSesionViewModel entrar)
         {
-            var usuario = await (from u in _contexto.Usuarios
-                                 where u.CorreoElectronico == entrar.Correo && u.Contraseña == entrar.Contraseña
-                                 select u).FirstOrDefaultAsync();
-            if (usuario == null)
+            if (ModelState.IsValid)
             {
-                ViewBag.Invalido = "Usuario no encontrado";
-                return View(entrar);
+                var usuario = await (from u in _contexto.Usuarios
+                                     where u.CorreoElectronico == entrar.Correo && u.Contraseña == entrar.Contraseña
+                                     select u).FirstOrDefaultAsync();
+                if (usuario == null)
+                {
+                    ViewBag.Invalido = "Usuario no encontrado";
+                    return View(entrar);
+                }
+                //Agrega el usuario a cookie
+                var claims = new List<Claim>
+                {
+                    new Claim("Id_Usuario", usuario.IdUsuario.ToString()),
+                    new Claim(ClaimTypes.Name, usuario.NombreCompleto),
+                    new Claim(ClaimTypes.Email, usuario.CorreoElectronico),
+                    new Claim(ClaimTypes.MobilePhone, usuario.Telefono),
+                };
+
+                var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
+                    new ClaimsPrincipal(claimsIdentity));
+
+                return RedirectToAction("CrearPropiedad", "Propiedades");
             }
-            //Agrega el usuario a cookie
-            var claims = new List<Claim>
-            {
-                new Claim("Id_Usuario", usuario.IdUsuario.ToString()),
-                new Claim(ClaimTypes.Name, usuario.NombreCompleto),
-                new Claim(ClaimTypes.Email, usuario.CorreoElectronico),
-                new Claim(ClaimTypes.MobilePhone, usuario.Telefono),
-            };
-
-            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-
-            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, 
-                new ClaimsPrincipal(claimsIdentity));
-
-            return RedirectToAction("CrearPropiedad", "Propiedades");
+            return View(entrar);
         }
         #endregion
         #region Recuperar
