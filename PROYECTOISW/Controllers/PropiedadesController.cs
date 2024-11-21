@@ -37,7 +37,10 @@ namespace PROYECTOISW.Controllers
         [HttpPost]
         public async Task<IActionResult> CrearPropiedad(CrearPropiedadViewModel nuevo)
         {
-            
+            if (nuevo.fotoPropiedad == null || nuevo.fotoPropiedad.Length == 0) 
+            {
+                ModelState.AddModelError("fotoPropiedad", "Debe subir una foto.");
+            }
             if (ModelState.IsValid)
             {
                 //Deseralizar una cookie
@@ -45,7 +48,7 @@ namespace PROYECTOISW.Controllers
                 if (claimsIdentity != null)
                 {
                     var  id = int.Parse(claimsIdentity.FindFirst("Id_Usuario")?.Value);
-
+                    System.Diagnostics.Debug.WriteLine("Se subieron fotos\n");
                     var crear = new Propiedad
                     {
                         Estado = "H",
@@ -61,17 +64,31 @@ namespace PROYECTOISW.Controllers
                         Direccion = nuevo.Direccion,
                         Distancia = nuevo.Distancia,
                         CondicionesEspeciales = nuevo.CondicionesEspeciales,
-                        FechaPublicacion = DateTime.Now
+                        FechaPublicacion = DateTime.Now,
                     };
                     _contexto.Propiedades.Add(crear);
                     await _contexto.SaveChangesAsync();
+                    if (nuevo.fotoPropiedad != null && nuevo.fotoPropiedad.Length > 0)
+                    {
+                        using (var memoryStream = new MemoryStream())
+                        {
+                            await nuevo.fotoPropiedad.CopyToAsync(memoryStream);
+                            var foto = new Imagene
+                            {
+                                IdPropiedad = crear.IdPropiedad,
+                                Imagen = memoryStream.ToArray()
+                            };
+                            _contexto.Imagenes.Add(foto);
+                        }
+                        await _contexto.SaveChangesAsync();
+                    }
                     return RedirectToAction("Index", "Home");
                 }
-                var errors = ModelState.Values.SelectMany(v => v.Errors);
-                foreach (var error in errors)
-                {
-                    Console.WriteLine(error.ErrorMessage);
-                }
+            }
+            var errors = ModelState.Values.SelectMany(v => v.Errors);
+            foreach (var error in errors)
+            {
+                System.Diagnostics.Debug.WriteLine(error.ErrorMessage);
             }
             return View(nuevo);
         }

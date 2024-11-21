@@ -65,5 +65,8 @@ namespace PROYECTOISW.Models.ViewModel
                 new SelectListItem { Value = "Habitacion", Text = "Habitacion"}
             };
         }
+        [Required(ErrorMessage = "El campo es obligatorio")]
+        [Display(Name = "Condiciones Especiales")]
+        public IFormFile? fotoPropiedad { get; set; }
     }
 }
