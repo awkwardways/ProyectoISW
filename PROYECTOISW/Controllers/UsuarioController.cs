@@ -101,7 +101,7 @@ namespace PROYECTOISW.Controllers
             if (ModelState.IsValid)
             {
                 var usuario = await (from u in _contexto.Usuarios
-                                     where u.CorreoElectronico == entrar.Correo && u.Contraseña == entrar.Contraseña
+                                     where u.CorreoElectronico == entrar.Correo && u.Contraseña == Cifrado.GetSHA256(entrar.Contraseña)
                                      select u).FirstOrDefaultAsync();
                 if (usuario == null)
                 {
@@ -122,7 +122,7 @@ namespace PROYECTOISW.Controllers
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
                     new ClaimsPrincipal(claimsIdentity));
 
-                return RedirectToAction("CrearPropiedad", "Propiedades");
+                return RedirectToAction("Index", "Home");
             }
             return View(entrar);
         }
