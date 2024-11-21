@@ -1,4 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc.Rendering;
+
 
 namespace PROYECTOISW.Models.ViewModel
 {
@@ -53,5 +55,15 @@ namespace PROYECTOISW.Models.ViewModel
         [Display(Name = "Condiciones Especiales")]
         public string? CondicionesEspeciales { get; set; }
 
+        public List<SelectListItem>? tiposDePropiedad { get; set; }
+        public CrearPropiedadViewModel()
+        {
+            tiposDePropiedad = new List<SelectListItem>
+            {
+                new SelectListItem { Value = "Casa", Text = "Casa"},
+                new SelectListItem { Value = "Departamento", Text = "Departamento" },
+                new SelectListItem { Value = "Habitacion", Text = "Habitacion"}
+            };
+        }
     }
 }

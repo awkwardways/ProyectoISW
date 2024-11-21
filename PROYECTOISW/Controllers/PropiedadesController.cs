@@ -29,8 +29,8 @@ namespace PROYECTOISW.Controllers
         [HttpGet]
         public IActionResult CrearPropiedad()
         {
-            return View();
-
+            var model = new CrearPropiedadViewModel();
+            return View(model);
         }
         //TODO: Validar que el usuario haya iniciado sesion y sea propietario.
         //TODO2: Validar la entrada de datos.
@@ -57,7 +57,8 @@ namespace PROYECTOISW.Controllers
                         Superficie = nuevo.Superficie,
                         NumeroHabitaciones = nuevo.NumeroHabitaciones,
                         NumeroBaños = nuevo.NumeroBaños,
-                        Sevicios = nuevo.Servicios,
+
+                        Servicios = nuevo.Servicios,
                         Direccion = nuevo.Direccion,
                         Distancia = nuevo.Distancia,
                         CondicionesEspeciales = nuevo.CondicionesEspeciales,
