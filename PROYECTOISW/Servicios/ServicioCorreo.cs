@@ -42,10 +42,15 @@ namespace PROYECTOISW.Servicios
         {
             try
             {
-               await _contexto.Usuarios
+                await _contexto.Usuarios
                     .Where(c => c.CorreoElectronico == correo)
                     .ExecuteUpdateAsync(setters => setters.SetProperty(t => t.Contraseña, nuevaContraseña));
-               await _contexto.SaveChangesAsync();
+                await _contexto.SaveChangesAsync();
+                //Eliminar Token
+                await _contexto.Usuarios
+                    .Where(c => c.CorreoElectronico == correo)
+                    .ExecuteUpdateAsync(setters => setters.SetProperty(t => t.Token, string.Empty));
+                await _contexto.SaveChangesAsync();
             }
             catch (Exception ex) 
             {

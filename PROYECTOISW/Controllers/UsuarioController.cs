@@ -132,7 +132,9 @@ namespace PROYECTOISW.Controllers
         [HttpPost]
         public IActionResult RecuperarCon(RecuperarConViewModel recuperar)
         {
+            //Cifra el token
             string token = GenerarToken();
+
             if (ModelState.IsValid)
             {
                 var encontrado = _servicioCorreo.BuscarCorreo(recuperar.Correo);
@@ -143,7 +145,7 @@ namespace PROYECTOISW.Controllers
                     return View(recuperar);
                 }
                 //Genera toquen
-                _servicioCorreo.GuardarToken(token, encontrado);
+                _servicioCorreo.GuardarToken(Cifrado.GetSHA256(token), encontrado);
                 //Mandar alerta de nuevo token
                 _servicioCorreo.EnviarCorreo(encontrado, token);
                 return View("ValidarToken");
@@ -162,7 +164,7 @@ namespace PROYECTOISW.Controllers
             if (ModelState.IsValid)
             {
                 //Busca el token con un correo y tokens validos 
-                if ( await _servicioCorreo.ValidarCon(codigo.Correo,codigo.Token) == false)
+                if ( await _servicioCorreo.ValidarCon(codigo.Correo, Cifrado.GetSHA256(codigo.Token)) == false)
                 {
                     ViewBag.Invalido = "Codigo no valido.";
                     return View(codigo);
@@ -193,7 +195,7 @@ namespace PROYECTOISW.Controllers
                     return View(crear);
                 }
                 //Restablecer contraseña
-                await _servicioCorreo.ActualizarCon(crear.Nueva, crear.Email);
+                await _servicioCorreo.ActualizarCon(Cifrado.GetSHA256(crear.Nueva), crear.Email);
                 ViewBag.Contrase = "Contraseña restablecida con exito";
                 return View();
             }
@@ -203,7 +205,7 @@ namespace PROYECTOISW.Controllers
         public string GenerarToken()
         {
             Random random = new Random();
-            int token = random.Next(0,10000);
+            int token = random.Next(1000,9000);
             return token.ToString();
         }
     }
