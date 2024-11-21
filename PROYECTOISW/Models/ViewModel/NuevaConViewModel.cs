@@ -10,5 +10,6 @@ namespace PROYECTOISW.Models.ViewModel
         [Required(ErrorMessage = "El campo es requirodo")]
         [Display(Name = "Confirmar Contraseña")]
         public string? Confirmar { get; set; }
+        public string? Email { get; set; }
     }
 }

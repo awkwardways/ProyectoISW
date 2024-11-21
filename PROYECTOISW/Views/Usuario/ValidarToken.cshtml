@@ -20,9 +20,7 @@
     }
     @if (ViewBag.Contraseñas == true)
     {
-        var nuevaConModel = new PROYECTOISW.Models.ViewModel.NuevaConViewModel();
-        @Html.Partial("_NuevaCon", nuevaConModel)
-        ;
+        @await Html.PartialAsync("NuevaCon");
     }
 </form>
 

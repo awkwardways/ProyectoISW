@@ -22,25 +22,35 @@ namespace PROYECTOISW.Servicios
             return encontrado;
         }
 
-        public void GuardarToken(string token, string correo)
+        public async Task GuardarToken(string token, string correo)
         {
-            _contexto.Usuarios
+            await _contexto.Usuarios
                 .Where(c => c.CorreoElectronico == correo)
-                .ExecuteUpdate(setters => setters.SetProperty(t => t.Token, token));
-            _contexto.SaveChanges();
+                .ExecuteUpdateAsync(setters => setters.SetProperty(t => t.Token, token));
+            await _contexto.SaveChangesAsync();
         }
 
-        public bool ValidarCon(string correo, string token)
+        public async Task <bool> ValidarCon(string correo, string token)
         {
-            var encontrado = (from e in _contexto.Usuarios
+            var encontrado = await (from e in _contexto.Usuarios
                              where e.CorreoElectronico == correo && e.Token == token
-                             select e.Token).SingleOrDefault();
+                             select e.Token).SingleOrDefaultAsync();
             if (encontrado != null) return true; else return false;
         }
 
-        public void ActualizarCon(Usuario usuario, string nuvaCon)
+        public async Task ActualizarCon(string nuevaContraseña, string correo)
         {
-            throw new NotImplementedException();
+            try
+            {
+               await _contexto.Usuarios
+                    .Where(c => c.CorreoElectronico == correo)
+                    .ExecuteUpdateAsync(setters => setters.SetProperty(t => t.Contraseña, nuevaContraseña));
+               await _contexto.SaveChangesAsync();
+            }
+            catch (Exception ex) 
+            {
+                Console.WriteLine(ex.Message.ToString());
+            }   
         }
 
         public void EnviarCorreo(string destino, string token)

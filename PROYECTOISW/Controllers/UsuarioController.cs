@@ -157,34 +157,49 @@ namespace PROYECTOISW.Controllers
             return View(model);
         }
         [HttpPost]
-        public IActionResult ValidarToken(CodigoViewModel codigo)
+        public async Task <IActionResult> ValidarToken(CodigoViewModel codigo)
         { 
             if (ModelState.IsValid)
             {
                 //Busca el token con un correo y tokens validos 
-                if (_servicioCorreo.ValidarCon(codigo.Correo,codigo.Token) == false)
+                if ( await _servicioCorreo.ValidarCon(codigo.Correo,codigo.Token) == false)
                 {
                     ViewBag.Invalido = "Codigo no valido.";
                     return View(codigo);
                 }
-                ViewBag.Contraseñas = true; 
-                return View(codigo);
+                ViewBag.Contraseñas = true;
+                return RedirectToActionPermanent("NuevaCon", new {correo = codigo.Correo });
             }
             return View();
         }
         #endregion
+        #region Nueva Contraseña
         [HttpGet]
-        public IActionResult NuevaCon(string token, string correo)
+        public IActionResult NuevaCon(string? correo)
         {
-            var model = new CodigoViewModel { Token = token, Correo = correo };
+            var model = new NuevaConViewModel { Email = correo};
             return View(model);
         }
         [HttpPost]
-        public IActionResult NuevaCon(NuevaConViewModel crear)
+        public async Task <IActionResult> NuevaCon(NuevaConViewModel crear)
         {
-
+            if (ModelState.IsValid)
+            {
+                //Verificar que las contraseñas sean iguales
+                //si no son iguales regresa a la vista con un error
+                if (crear.Nueva != crear.Confirmar)
+                {
+                    ViewBag.Incorrecto = "Las contraseñas no coinciden";
+                    return View(crear);
+                }
+                //Restablecer contraseña
+                await _servicioCorreo.ActualizarCon(crear.Nueva, crear.Email);
+                ViewBag.Contrase = "Contraseña restablecida con exito";
+                return View();
+            }
             return View();
         }
+        #endregion
         public string GenerarToken()
         {
             Random random = new Random();

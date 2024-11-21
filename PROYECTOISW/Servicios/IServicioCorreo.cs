@@ -5,9 +5,9 @@ namespace PROYECTOISW.Servicios
     public interface IServicioCorreo
     {
         string BuscarCorreo(string correo);
-        bool ValidarCon(string correo,string token);
-        void GuardarToken(string token, string correo);
-        void ActualizarCon(Usuario usuario, string nuvaCon);
+        Task<bool> ValidarCon(string correo,string token);
+        Task GuardarToken(string token, string correo);
+        Task ActualizarCon(string nuevaCon, string correo);
 
         void EnviarCorreo(string destino, string token);
     }
