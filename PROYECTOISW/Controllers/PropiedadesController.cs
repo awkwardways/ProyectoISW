@@ -12,6 +12,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using Newtonsoft.Json.Linq;
 using System.Security.Claims;
+using System.Text.RegularExpressions;
 
 namespace PROYECTOISW.Controllers
 {
@@ -35,12 +36,20 @@ namespace PROYECTOISW.Controllers
         //TODO: Validar que el usuario haya iniciado sesion y sea propietario.
         //TODO2: Validar la entrada de datos.
         [HttpPost]
+
+      
+       
+        
         public async Task<IActionResult> CrearPropiedad(CrearPropiedadViewModel nuevo)
-        {
+        {   
+
+            if (!int.TryParse(nuevo.PrecioRenta.ToString(), out int precioRenta)) 
+            { 
+                ModelState.AddModelError("PrecioRenta", "El precio de renta debe ser un valor numérico."); return View(nuevo);
+            }
 
             if (ModelState.IsValid)
             {
-
                 //Deseralizar una cookie
                 var claimsIdentity = User.Identity as ClaimsIdentity;
                 if (claimsIdentity != null)
@@ -67,6 +76,20 @@ namespace PROYECTOISW.Controllers
                     _contexto.Propiedades.Add(crear);
                     await _contexto.SaveChangesAsync();
 
+                    //if (nuevo.archivoImagen != null && nuevo.archivoImagen.Length > 0)
+                    //{
+                    //    using (var memoryStream = new MemoryStream())
+                    //    {
+                    //        await nuevo.archivoImagen.CopyToAsync(memoryStream);
+                    //        var imagenData = new Imagene
+                    //        {
+                    //            IdPropiedad = crear.IdPropiedad,
+                    //            Imagen = memoryStream.ToArray()
+                    //        };
+                    //        _contexto.Imagenes.Add(imagenData);
+                    //        await _contexto.SaveChangesAsync();
+                    //    }
+                    //}
                     if(nuevo.archivosImagenes != null & nuevo.archivosImagenes.Count > 0) 
                     {
                         foreach (var foto in nuevo.archivosImagenes) 
