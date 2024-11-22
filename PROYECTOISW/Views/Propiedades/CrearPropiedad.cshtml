@@ -142,8 +142,8 @@
             </div>
 
             <div class="form-group">
-                <label>Subir fotos de la propiedad (máx. 10 fotos de 5MB c/u, JPG o PNG):</label>
-                <input type="file" id="property-photos" classs=" "name="Fotos" accept="image/png, image/jpeg" multiple />
+                <label asp-for="archivosImagenes" class="form-label">Imagen</label>
+                <input asp-for="archivosImagenes" multiple class="form-control" type="file" accept="image/*" />
             </div>
 
             <div class="form-group">
