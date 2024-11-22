@@ -22,11 +22,11 @@
                 <div class="mb-4">
                     <h2>Registrarse como</h2>
                     <div class="form-check">
-                        <input asp-for="Tipo" class="form-check-input" type="radio" id="estudiante" value="A" />
+                        <input asp-for="Tipo" class="form-check-input" type="radio" id="estudiante" value="estudiante" />
                         <label class="form-check-label" for="estudiante">Estudiante</label>
                     </div>
                     <div class="form-check">
-                        <input asp-for="Tipo" class="form-check-input" type="radio" id="propietario" value="P" />
+                        <input asp-for="Tipo" class="form-check-input" type="radio" id="propietario" value="propietario" />
                         <label class="form-check-label" for="propietario">Propietario</label>
                     </div>
                     <span asp-validation-for="Tipo" class="text-danger"></span>

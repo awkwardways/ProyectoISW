@@ -25,7 +25,7 @@ public partial class Propiedade
 
     public string NumeroBaños { get; set; } = null!;
 
-    public string Servicios { get; set; } = null!;
+    public string Sevicios { get; set; } = null!;
 
     public string Direccion { get; set; } = null!;
 

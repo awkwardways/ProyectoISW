@@ -20,7 +20,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     {
         options.Cookie.Name = "MiCookie";
         options.ExpireTimeSpan = TimeSpan.FromMinutes(15);
-        options.LoginPath = "/Usuario/IniciarSesion";
+        options.LoginPath = "/Home/Index";
         options.AccessDeniedPath = "/Usuario/IniciarSesion";
     });
 
