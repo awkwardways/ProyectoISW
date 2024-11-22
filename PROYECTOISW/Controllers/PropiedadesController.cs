@@ -12,6 +12,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using Newtonsoft.Json.Linq;
 using System.Security.Claims;
+using System.Text.RegularExpressions;
 
 namespace PROYECTOISW.Controllers
 {
@@ -35,8 +36,18 @@ namespace PROYECTOISW.Controllers
         //TODO: Validar que el usuario haya iniciado sesion y sea propietario.
         //TODO2: Validar la entrada de datos.
         [HttpPost]
+
+      
+       
+        
         public async Task<IActionResult> CrearPropiedad(CrearPropiedadViewModel nuevo)
-        {
+        {   
+
+            if (!int.TryParse(nuevo.PrecioRenta.ToString(), out int precioRenta)) 
+            { 
+                ModelState.AddModelError("PrecioRenta", "El precio de renta debe ser un valor numérico."); return View(nuevo);
+            }
+
             if (ModelState.IsValid)
             {
                 //Deseralizar una cookie
