@@ -50,7 +50,7 @@ namespace PROYECTOISW.Controllers
                     nuevo.Foto = memoryStream.ToArray();
                 }
             }
-
+            
             if (nuevo.Tipo == "estudiante")
             {
                 nuevo.Tipo = "A";
@@ -59,6 +59,7 @@ namespace PROYECTOISW.Controllers
             {
                 nuevo.Tipo = "P";
             }
+            /*
             // Validación de la contraseña
             string pattern = @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$";
             if (!Regex.IsMatch(nuevo.Contraseña, pattern))
@@ -66,7 +67,7 @@ namespace PROYECTOISW.Controllers
                 ViewBag.Contrase = "La contraseña debe tener al menos 8 caracteres, incluyendo 1 carácter especial, 1 letra mayúscula y 1 letra minúscula.";
                 return View(nuevo);
             }
-            
+            */
             // Verificar si las contraseñas coinciden antes de validar el modelo
             if (nuevo.RContraseña != nuevo.Contraseña)
             {

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace PROYECTOISW.Models.ViewModel
 {
@@ -7,6 +8,7 @@ namespace PROYECTOISW.Models.ViewModel
         public string? Tipo { get; set; }
 
         [Required(ErrorMessage = "El campo es obligatorio")]
+        [MaxLength(40,ErrorMessage ="El limite son 40 letras")]
         [Display(Name = "Nombre Completo")]
         public string? NombreCompleto { get; set; }
 
@@ -24,6 +26,7 @@ namespace PROYECTOISW.Models.ViewModel
         public string? RContraseña { get; set; }
 
         [Required(ErrorMessage = "El campo es obligatorio")]
+        [MaxLength(10,ErrorMessage ="El numero de contener 10 digitos")]
         [Display(Name = "Teléfono")]
         public string? Telefono { get; set; }
 
