@@ -1,1 +1,9 @@
-﻿<h1>Bienvenido</h1>
+﻿@{
+    ViewData["Title"] = "Home Page";
+    Layout = "_MyLayout";
+}
+
+
+
+@await Html.PartialAsync("_CambiarContrasena")
+@await Html.PartialAsync("_CambiarTelefono")

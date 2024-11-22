@@ -28,7 +28,7 @@ namespace PROYECTOISW.Controllers
 
                 if (encontrado == null)
                 {
-                    ViewBag.Invalido = "Este correo no esta asociado a una cuenta";
+                    ViewBag.Invalido = "El correo no esta registrado en el sistema";
                     return View(recuperar);
                 }
                 //Genera toquen

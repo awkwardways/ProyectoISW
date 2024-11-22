@@ -11,6 +11,13 @@
     <div class="mb-5">
         <button type="submit" class="btn btn-danger">Enviar Código</button>
     </div>
+    <!-- Mensaje de error -->
+    @if (!string.IsNullOrEmpty(ViewBag.Invalido))
+    {
+        <div class="alert alert-danger mt-3" role="alert">
+            @ViewBag.Invalido
+        </div>
+    }
 </form>
 
 @section Scripts

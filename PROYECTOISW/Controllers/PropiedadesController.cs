@@ -104,10 +104,11 @@ namespace PROYECTOISW.Controllers
         }
         #endregion
         #region Editar
-        //public IActionResult Editar()
-        //{
-
-        //}
-        #endregion
-    }
+        [HttpGet]
+        public IActionResult Editar()
+        {
+            return View();
+        }
+    #endregion
+}
 }
