@@ -1,0 +1,42 @@
+﻿@model PROYECTOISW.Models.ViewModels.RCViewModels.CambiarContraseñaViewModel
+
+<h1>Cambiar Contraseña</h1>
+
+<form asp-action="RestablecerContraseña" asp-controller="Rc" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input asp-for="Correo" type="hidden" />
+    <input asp-for="Token" type="hidden" />
+    <div class="mb-5">
+        <label asp-for="Nueva" class="form-label"></label>
+        <input asp-for="Nueva" class="form-control" type="password" placeholder="Ingresar contraseña" />
+        <span asp-validation-for="Nueva" class="text-danger"></span>
+    </div>
+    <div class="mb-5">
+        <label asp-for="Confirmar" class="form-label"></label>
+        <input asp-for="Confirmar" class="form-control" type="password" placeholder="Confirmar contraseña" />
+        <span asp-validation-for="Confirmar" class="text-danger"></span>
+    </div>
+    <div class="mb-5">
+        <button type="submit" class="btn btn-secondary">Confirmar</button>
+    </div>
+    <!-- Mensaje de error -->
+    @if (!string.IsNullOrEmpty(ViewBag.Incorrecto))
+    {
+        <div class="alert alert-danger mt-3" role="alert">
+            @ViewBag.Incorrecto
+        </div>
+    }
+    @if (!string.IsNullOrEmpty(ViewBag.Contrase))
+    {
+        <div class="alert alert-danger mt-3" role="alert">
+            @ViewBag.Contrase
+        </div>
+    }
+</form>
+
+@section Scripts
+{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

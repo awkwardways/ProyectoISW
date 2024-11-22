@@ -67,7 +67,7 @@ namespace PROYECTOISW.Controllers
                         Superficie = nuevo.Superficie,
                         NumeroHabitaciones = nuevo.NumeroHabitaciones,
                         NumeroBaños = nuevo.NumeroBaños,
-                        Sevicios = nuevo.Servicios,
+                        Servicios = nuevo.Servicios,
                         Direccion = nuevo.Direccion,
                         Distancia = nuevo.Distancia,
                         CondicionesEspeciales = nuevo.CondicionesEspeciales,
@@ -76,20 +76,6 @@ namespace PROYECTOISW.Controllers
                     _contexto.Propiedades.Add(crear);
                     await _contexto.SaveChangesAsync();
 
-                    //if (nuevo.archivoImagen != null && nuevo.archivoImagen.Length > 0)
-                    //{
-                    //    using (var memoryStream = new MemoryStream())
-                    //    {
-                    //        await nuevo.archivoImagen.CopyToAsync(memoryStream);
-                    //        var imagenData = new Imagene
-                    //        {
-                    //            IdPropiedad = crear.IdPropiedad,
-                    //            Imagen = memoryStream.ToArray()
-                    //        };
-                    //        _contexto.Imagenes.Add(imagenData);
-                    //        await _contexto.SaveChangesAsync();
-                    //    }
-                    //}
                     if(nuevo.archivosImagenes != null & nuevo.archivosImagenes.Count > 0) 
                     {
                         foreach (var foto in nuevo.archivosImagenes) 

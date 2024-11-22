@@ -1,16 +1,62 @@
-﻿@model IEnumerable<PROYECTOISW.Models.Propiedade>
-<div class="container">
-    <div class="row">
-        @foreach (var property in Model)
+﻿@model PROYECTOISW.Models.ViewModel.BusquedaViewModel
+
+<style>
+
+</style>
+<div class="row mt-6 d-flex justify-content-center">
+    <form asp-action="Busqueda" method="post">
+        <div class="row mt-6">
+            <div class="form-group col-md-2">
+                <label asp-for="MinPrecio" class="col-form-label">Min</label>
+                <input type="number" class="form-control" asp-for="MinPrecio">
+            </div>
+            <div class="form-group col-md-2">
+                <label asp-for="MaxPrecio" class="col-form-label">Max</label>
+                <input type="number" class="form-control" asp-for="MaxPrecio">
+            </div>
+            <div class="form-group col-md-2">
+                <label asp-for="TipoInmueble" class="col-form-label">Tipo</label>
+                <select asp-for="TipoInmueble" asp-items="Model.TiposDePropiedad" class="form-control" ></select>
+            </div>
+            <div class="form-group col-md-1">
+                <label asp-for="DistanciaAEscuela" class="col-form-label">Distancia</label>
+                <select asp-for="DistanciaAEscuela">
+                    <option value=@null></option>
+                    <option value=1>1 km</option>
+                    <option value=2>2 km</option>
+                    <option value=3>3 km</option>
+                    <option value=4>4 km</option>
+                    <option value=5>5 km</option>
+                    <option value=6>5+ km</option>
+                </select>
+            </div>
+            <div class="form-group col-md-1 align-self-end">
+                <button type="submit" class="btn btn-primary">Buscar</button>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="col mt-4">
+    @if (Model.ListaDePropiedades != null)
+    {
+        @foreach (var item in Model.ListaDePropiedades)
         {
-            <div class="clo-md-4 mb-4">
+            <div class="col-md-4 mb-4">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">@Html.DisplayFor(modelItem => property.PrecioRenta)</h5>
-                        <h6 class="card-subtitle mb-2 text-muted">@Html.DisplayFor(modelItem => property.Descripcion)</h6>
+                        <h5 class="card-title">
+                            <a asp-action="Detalles" asp-route-id="@item.propiedad.IdPropiedad">@item.propiedad.PrecioRenta MXN</a>
+                        </h5>
+                        <h6 class="card-subtitle mb-2 text-muted">@item.propiedad.TipoPropiedad</h6>
+                        <p class="card-text">@item.propiedad.Distancia km de ESIME Culhuacan</p>
                     </div>
                 </div>
             </div>
         }
+    }
+    @if (Model.ListaDePropiedades == null) 
+    {
+        <p>No hay propiedades disponibles con esas características!</p>
+    }
+
     </div>
-</div>

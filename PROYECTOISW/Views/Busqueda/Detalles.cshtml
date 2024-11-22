@@ -1,0 +1,26 @@
+﻿@model PROYECTOISW.Models.ViewModel.DetallesViewModel
+
+<div class="container mt-5">
+    <h1>@Model.propiedadAMostrar.Titulo</h1>
+    @foreach (var foto in Model.imagenesDePropiedad)
+    {
+        <div class="col-md-4 mb-4">
+            <img src="data:@foto.mimeType;base64,@Convert.ToBase64String(foto.img)" class="img-fluid" alt="Property Image" />
+        </div>
+    }
+    <h5>@Model.propiedadAMostrar.PrecioRenta MXN</h5>
+    <p>Tipo: @Model.propiedadAMostrar.TipoPropiedad</p>
+    <p>Distancia: @Model.propiedadAMostrar.Distancia km from ESIME Culhuacan</p>
+    <p>Baños: @Model.propiedadAMostrar.NumeroBaños</p>
+    <p>Habitaciones: @Model.propiedadAMostrar.NumeroHabitaciones</p>
+    <p>Direccion: @Model.propiedadAMostrar.Direccion</p>
+    <h5>Descripcion</h5>
+    <p>@Model.propiedadAMostrar.Descripcion</p>
+    <div class="form-group mb-4 w-50">
+        <h5>Mensaje para el propietario</h5>
+        <textarea class="form-control" placeholder="Si te gusta esta propiedad, escribe un mensaje que muestre tu interés y le mandaremos el mensaje al propietario, junto a tu información"></textarea>
+    </div>
+    <div class="mb-4">
+        <button type="submit" class="btn btn-lg w-50" style="background-color: #28a745; color: white;">Contactar</button>
+    </div>
+</div>
