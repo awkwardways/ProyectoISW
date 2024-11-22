@@ -77,7 +77,7 @@ namespace PROYECTOISW.Controllers
             {
                 var crear = new Usuario
                 {
-                    Tipo = "A",
+                    Tipo = nuevo.Tipo,
                     NombreCompleto = nuevo.NombreCompleto,
                     CorreoElectronico = nuevo.CorreoElectronico,
                     Contraseña = Cifrado.GetSHA256(nuevo.Contraseña),

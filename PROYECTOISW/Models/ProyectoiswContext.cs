@@ -47,12 +47,12 @@ public partial class ProyectoiswContext : DbContext
             entity.HasOne(d => d.IdPropiedadNavigation).WithMany()
                 .HasForeignKey(d => d.IdPropiedad)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Citas__Id_Propie__5535A963");
+                .HasConstraintName("FK__Citas__Id_Propie__5629CD9C");
 
             entity.HasOne(d => d.IdUsuarioNavigation).WithMany()
                 .HasForeignKey(d => d.IdUsuario)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Citas__Id_Usuari__5629CD9C");
+                .HasConstraintName("FK__Citas__Id_Usuari__571DF1D5");
         });
 
         modelBuilder.Entity<Favorito>(entity =>
@@ -66,17 +66,17 @@ public partial class ProyectoiswContext : DbContext
             entity.HasOne(d => d.IdPropiedadNavigation).WithMany()
                 .HasForeignKey(d => d.IdPropiedad)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Favoritos__Id_Pr__5070F446");
+                .HasConstraintName("FK__Favoritos__Id_Pr__5165187F");
 
             entity.HasOne(d => d.IdUsuarioNavigation).WithMany()
                 .HasForeignKey(d => d.IdUsuario)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Favoritos__Id_Pr__4F7CD00D");
+                .HasConstraintName("FK__Favoritos__Id_Pr__5070F446");
         });
 
         modelBuilder.Entity<Imagene>(entity =>
         {
-            entity.HasKey(e => e.IdFoto);
+            entity.HasKey(e => e.IdFoto).HasName("PK__Imagenes__E107B44E039FF4C9");
 
             entity.Property(e => e.IdFoto).HasColumnName("Id_Foto");
             entity.Property(e => e.IdPropiedad).HasColumnName("Id_Propiedad");
@@ -84,12 +84,12 @@ public partial class ProyectoiswContext : DbContext
             entity.HasOne(d => d.IdPropiedadNavigation).WithMany(p => p.Imagenes)
                 .HasForeignKey(d => d.IdPropiedad)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Imagenes__Imagen__4D94879B");
+                .HasConstraintName("FK__Imagenes__Imagen__4E88ABD4");
         });
 
         modelBuilder.Entity<Propiedade>(entity =>
         {
-            entity.HasKey(e => e.IdPropiedad).HasName("PK__Propieda__5D2875B38046604A");
+            entity.HasKey(e => e.IdPropiedad).HasName("PK__Propieda__5D2875B3C90C2A84");
 
             entity.Property(e => e.IdPropiedad).HasColumnName("Id_Propiedad");
             entity.Property(e => e.CondicionesEspeciales)
@@ -121,7 +121,7 @@ public partial class ProyectoiswContext : DbContext
                 .IsFixedLength()
                 .HasColumnName("Numero_Habitaciones");
             entity.Property(e => e.PrecioRenta).HasColumnName("Precio_Renta");
-            entity.Property(e => e.Servicios)
+            entity.Property(e => e.Sevicios)
                 .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.Superficie)
@@ -156,17 +156,17 @@ public partial class ProyectoiswContext : DbContext
             entity.HasOne(d => d.IdPropiedadNavigation).WithMany()
                 .HasForeignKey(d => d.IdPropiedad)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Reseñas__Id_Prop__534D60F1");
+                .HasConstraintName("FK__Reseñas__Id_Prop__5441852A");
 
             entity.HasOne(d => d.IdUsuarioNavigation).WithMany()
                 .HasForeignKey(d => d.IdUsuario)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Reseñas__Id_Usua__52593CB8");
+                .HasConstraintName("FK__Reseñas__Id_Usua__534D60F1");
         });
 
         modelBuilder.Entity<Usuario>(entity =>
         {
-            entity.HasKey(e => e.IdUsuario).HasName("PK__Usuarios__63C76BE22C510725");
+            entity.HasKey(e => e.IdUsuario).HasName("PK__Usuarios__63C76BE2D8FB8C69");
 
             entity.Property(e => e.IdUsuario).HasColumnName("Id_Usuario");
             entity.Property(e => e.Contraseña)
