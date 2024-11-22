@@ -77,7 +77,7 @@ namespace PROYECTOISW.Controllers
             {
                 var crear = new Usuario
                 {
-                    Tipo = nuevo.Tipo,
+                    Tipo = "A",
                     NombreCompleto = nuevo.NombreCompleto,
                     CorreoElectronico = nuevo.CorreoElectronico,
                     Contraseña = Cifrado.GetSHA256(nuevo.Contraseña),
@@ -199,6 +199,15 @@ namespace PROYECTOISW.Controllers
         [HttpPost]
         public async Task <IActionResult> NuevaCon(NuevaConViewModel crear)
         {
+
+            // Validación de la contraseña
+            string pattern = @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$";
+            if (!Regex.IsMatch(crear.Nueva, pattern))
+            {
+                ViewBag.Contrase = "La contraseña debe tener al menos 8 caracteres, incluyendo 1 carácter especial, 1 letra mayúscula y 1 letra minúscula.";
+                return View(crear);
+            }
+
             if (ModelState.IsValid)
             {
                 //Verificar que las contraseñas sean iguales
