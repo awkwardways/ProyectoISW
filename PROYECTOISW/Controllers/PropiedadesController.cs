@@ -37,8 +37,10 @@ namespace PROYECTOISW.Controllers
         [HttpPost]
         public async Task<IActionResult> CrearPropiedad(CrearPropiedadViewModel nuevo)
         {
+
             if (ModelState.IsValid)
             {
+
                 //Deseralizar una cookie
                 var claimsIdentity = User.Identity as ClaimsIdentity;
                 if (claimsIdentity != null)
@@ -65,20 +67,6 @@ namespace PROYECTOISW.Controllers
                     _contexto.Propiedades.Add(crear);
                     await _contexto.SaveChangesAsync();
 
-                    //if (nuevo.archivoImagen != null && nuevo.archivoImagen.Length > 0)
-                    //{
-                    //    using (var memoryStream = new MemoryStream())
-                    //    {
-                    //        await nuevo.archivoImagen.CopyToAsync(memoryStream);
-                    //        var imagenData = new Imagene
-                    //        {
-                    //            IdPropiedad = crear.IdPropiedad,
-                    //            Imagen = memoryStream.ToArray()
-                    //        };
-                    //        _contexto.Imagenes.Add(imagenData);
-                    //        await _contexto.SaveChangesAsync();
-                    //    }
-                    //}
                     if(nuevo.archivosImagenes != null & nuevo.archivosImagenes.Count > 0) 
                     {
                         foreach (var foto in nuevo.archivosImagenes) 
