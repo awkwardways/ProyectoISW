@@ -12,7 +12,7 @@ builder.Services.AddDbContext<ProyectoiswContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("MiDB"));
 });
-builder.Services.AddScoped<IServicioCorreo, ServicioCorreo>();
+builder.Services.AddScoped<IServicioRC, ServicioRC>();
 
 //Agregar Autenticacion con cookies
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)

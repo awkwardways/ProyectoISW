@@ -1,7 +1,7 @@
 ﻿@model PROYECTOISW.Models.ViewModels.CrearUsuarioViewModel
 
-<form asp-action="CrearUsuario" method="post" enctype="multipart/form-data">
-    <div class="mb-4">
+<form asp-action="CrearUsuario" asp-controller="Usuario" method="post" enctype="multipart/form-data">
+    <div class="mb-4">      
         <h2>Registrarse como</h2>
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="form-check">

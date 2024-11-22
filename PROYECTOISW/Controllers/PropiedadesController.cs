@@ -36,10 +36,6 @@ namespace PROYECTOISW.Controllers
         //TODO: Validar que el usuario haya iniciado sesion y sea propietario.
         //TODO2: Validar la entrada de datos.
         [HttpPost]
-
-      
-       
-        
         public async Task<IActionResult> CrearPropiedad(CrearPropiedadViewModel nuevo)
         {   
 
@@ -106,6 +102,12 @@ namespace PROYECTOISW.Controllers
             }
             return View(nuevo);
         }
+        #endregion
+        #region Editar
+        //public IActionResult Editar()
+        //{
+
+        //}
         #endregion
     }
 }

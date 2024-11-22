@@ -57,7 +57,7 @@ namespace PROYECTOISW.Controllers
                     return View(validar);
                 }
                 ViewBag.TokenValido = true;
-                return RedirectToActionPermanent("RestablecerContraseña", new CambiarContraseñaViewModel { Correo = validar.Correo, Token = validar.Token });
+                return View("RestablecerContraseña", new CambiarContraseñaViewModel { Correo = validar.Correo, Token = validar.Token });
             }
             return View();
         }

@@ -78,6 +78,21 @@ namespace PROYECTOISW.Controllers
                 };
                 _contexto.Usuarios.Add(crear);
                 await _contexto.SaveChangesAsync();
+
+                //Agrega el usuario a cookie
+                var claims = new List<Claim>
+                {
+                    new Claim("Id_Usuario", crear.IdUsuario.ToString()),
+                    new Claim(ClaimTypes.Name, crear.NombreCompleto),
+                    new Claim(ClaimTypes.Email, crear.CorreoElectronico),
+                    new Claim(ClaimTypes.MobilePhone, crear.Telefono)
+                };
+
+                var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
+                    new ClaimsPrincipal(claimsIdentity));
+
                 return RedirectToAction("Index", "Home"); // Redirigir después de guardar
             }
             return View(nuevo);
