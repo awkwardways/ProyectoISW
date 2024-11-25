@@ -29,6 +29,7 @@ namespace PROYECTOISW.Models.ViewModels
         public string RContraseña { get; set; }
 
         [Required(ErrorMessage = "El campo es requerido")]
+        [MaxLength(10,ErrorMessage ="El numero no debe exceder los 10 digitos")]
         [Display(Name = "Telefono")]
         public string Telefono { get; set; }
 

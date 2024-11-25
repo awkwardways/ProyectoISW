@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Crear Propiedad";
+    Layout = null;
 }
 
 <!DOCTYPE html>
@@ -10,7 +11,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewData["Title"]</title>
-    <link rel="stylesheet" href="paginaagregarfotos.css">
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap-grid.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/PROYECTOISW.styles.css" asp-append-version="true" />
     <style>
         body {
             background-color: #f4f4f9; /* Fondo gris claro */
@@ -130,7 +134,7 @@
             </div>
 
             <div class="form-group">
-                <label asp-for="Distancia">Distancia a ESIME:</label>
+                <label asp-for="Distancia">Distancia a ESIME (KM):</label>
                 <input asp-for="Distancia" class="form-control" placeholder="Ej: 10 minutos en metro" />
                 <span asp-validation-for="Distancia" class="text-danger"></span>
             </div>
@@ -151,6 +155,9 @@
             </div>
         </form>
     </div>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
 </body>
 </html>
 

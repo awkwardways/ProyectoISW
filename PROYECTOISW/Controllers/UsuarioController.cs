@@ -83,9 +83,10 @@ namespace PROYECTOISW.Controllers
                 var claims = new List<Claim>
                 {
                     new Claim("Id_Usuario", crear.IdUsuario.ToString()),
+                    new Claim("Tipo", crear.Tipo),
                     new Claim(ClaimTypes.Name, crear.NombreCompleto),
                     new Claim(ClaimTypes.Email, crear.CorreoElectronico),
-                    new Claim(ClaimTypes.MobilePhone, crear.Telefono)
+                    new Claim(ClaimTypes.MobilePhone, crear.Telefono),
                 };
 
                 var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
@@ -123,11 +124,12 @@ namespace PROYECTOISW.Controllers
                 var claims = new List<Claim>
                 {
                     new Claim("Id_Usuario", usuario.IdUsuario.ToString()),
+                    new Claim("Tipo", usuario.Tipo),
                     new Claim(ClaimTypes.Name, usuario.NombreCompleto),
                     new Claim(ClaimTypes.Email, usuario.CorreoElectronico),
-                    new Claim(ClaimTypes.MobilePhone, usuario.Telefono)
+                    new Claim(ClaimTypes.MobilePhone, usuario.Telefono),
+                    new Claim("UserPhoto", Convert.ToBase64String(usuario.Foto)) // Agregar la URL de la foto
                 };
-
                 var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
@@ -137,6 +139,19 @@ namespace PROYECTOISW.Controllers
             }
             return View(entrar);
         }
+        [HttpGet]
+        public IActionResult CambiarContraseña()
+        {
+            return View();
+        }
         #endregion
+        [HttpGet]
+        public async Task<IActionResult> CerrarSesion()
+        {
+            // Clear the existing external cookie
+            await HttpContext.SignOutAsync(
+                CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("IniciarSesion", "Usuario");
+        }
     }
 }

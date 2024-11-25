@@ -37,12 +37,12 @@ namespace PROYECTOISW.Controllers
         //TODO2: Validar la entrada de datos.
         [HttpPost]
         public async Task<IActionResult> CrearPropiedad(CrearPropiedadViewModel nuevo)
-        {   
+        {
 
-            if (!int.TryParse(nuevo.PrecioRenta.ToString(), out int precioRenta)) 
-            { 
-                ModelState.AddModelError("PrecioRenta", "El precio de renta debe ser un valor numérico."); return View(nuevo);
-            }
+            //if (!int.TryParse(nuevo.PrecioRenta.ToString(), out int precioRenta))
+            //{
+            //    ModelState.AddModelError("PrecioRenta", "El precio de renta debe ser un valor numérico."); return View(nuevo);
+            //}
 
             if (ModelState.IsValid)
             {
@@ -50,7 +50,7 @@ namespace PROYECTOISW.Controllers
                 var claimsIdentity = User.Identity as ClaimsIdentity;
                 if (claimsIdentity != null)
                 {
-                    var  id = int.Parse(claimsIdentity.FindFirst("Id_Usuario")?.Value);
+                    var id = int.Parse(claimsIdentity.FindFirst("Id_Usuario")?.Value);
                     // System.Diagnostics.Debug.WriteLine("Se subieron fotos\n");
                     var crear = new Propiedade
                     {
@@ -72,13 +72,13 @@ namespace PROYECTOISW.Controllers
                     _contexto.Propiedades.Add(crear);
                     await _contexto.SaveChangesAsync();
 
-                    if(nuevo.archivosImagenes != null & nuevo.archivosImagenes.Count > 0) 
+                    if (nuevo.archivosImagenes != null && nuevo.archivosImagenes.Count > 0)
                     {
-                        foreach (var foto in nuevo.archivosImagenes) 
+                        foreach (var foto in nuevo.archivosImagenes)
                         {
-                            if (foto.Length > 0) 
+                            if (foto.Length > 0)
                             {
-                                using (var memoryStream = new MemoryStream()) 
+                                using (var memoryStream = new MemoryStream())
                                 {
                                     await foto.CopyToAsync(memoryStream);
                                     var imagen = new Imagene
@@ -109,6 +109,6 @@ namespace PROYECTOISW.Controllers
         {
             return View();
         }
-    #endregion
-}
+        #endregion
+    }
 }

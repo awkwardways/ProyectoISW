@@ -74,7 +74,7 @@ namespace PROYECTOISW.Controllers
                 //Restablecer contraseña
                 await _servicioRC.ActualizarCon(Cifrado.GetSHA256(cambiar.Nueva), cambiar.Correo);
                 ViewBag.Contrase = "Contraseña restablecida con exito";
-                return View();
+                return RedirectToAction("IniciarSesion","Usuario");
             }
             return View();
         }

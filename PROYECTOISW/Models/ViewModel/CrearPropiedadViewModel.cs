@@ -22,6 +22,7 @@ namespace PROYECTOISW.Models.ViewModel
 
         [Required(ErrorMessage = "El campo es obligatorio")]
         [Range(1,100000, ErrorMessage = "El precio es incorrecto")]
+        [RegularExpression(@"^\d+$", ErrorMessage = "Solo se permiten números.")]
         [Display(Name = "Precio de renta")] 
         public int PrecioRenta { get; set; }
 

@@ -1,62 +1,40 @@
-﻿@model PROYECTOISW.Models.ViewModel.BusquedaViewModel
+﻿@model PROYECTOISW.Models.ViewModel.CompartidoViewModel
 
-<style>
-
-</style>
-<div class="row mt-6 d-flex justify-content-center">
-    <form asp-action="Busqueda" method="post">
-        <div class="row mt-6">
-            <div class="form-group col-md-2">
-                <label asp-for="MinPrecio" class="col-form-label">Min</label>
-                <input type="number" class="form-control" asp-for="MinPrecio">
-            </div>
-            <div class="form-group col-md-2">
-                <label asp-for="MaxPrecio" class="col-form-label">Max</label>
-                <input type="number" class="form-control" asp-for="MaxPrecio">
-            </div>
-            <div class="form-group col-md-2">
-                <label asp-for="TipoInmueble" class="col-form-label">Tipo</label>
-                <select asp-for="TipoInmueble" asp-items="Model.TiposDePropiedad" class="form-control" ></select>
-            </div>
-            <div class="form-group col-md-1">
-                <label asp-for="DistanciaAEscuela" class="col-form-label">Distancia</label>
-                <select asp-for="DistanciaAEscuela">
-                    <option value=@null></option>
-                    <option value=1>1 km</option>
-                    <option value=2>2 km</option>
-                    <option value=3>3 km</option>
-                    <option value=4>4 km</option>
-                    <option value=5>5 km</option>
-                    <option value=6>5+ km</option>
-                </select>
-            </div>
-            <div class="form-group col-md-1 align-self-end">
-                <button type="submit" class="btn btn-primary">Buscar</button>
-            </div>
-        </div>
-    </form>
-</div>
-<div class="col mt-4">
-    @if (Model.ListaDePropiedades != null)
-    {
-        @foreach (var item in Model.ListaDePropiedades)
+<form id="miFormulario" asp-action="Busqueda" asp-controller="Busqueda" method="post">
+    <label asp-for="Buscar.TipoInmueble" class="form-label"></label>
+    <input asp-for="Buscar.TipoInmueble" type="text" class="form-control" />
+    <button type="submit">Enviar</button>
+</form>
+<a id="resultados"></a>
+@foreach (var p in Model.Publicaciones)
+{
+    <div class="card" style="width: 18rem;">
+        @foreach (var e in p.Imagenes)
         {
-            <div class="col-md-4 mb-4">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">
-                            <a asp-action="Detalles" asp-route-id="@item.propiedad.IdPropiedad">@item.propiedad.PrecioRenta MXN</a>
-                        </h5>
-                        <h6 class="card-subtitle mb-2 text-muted">@item.propiedad.TipoPropiedad</h6>
-                        <p class="card-text">@item.propiedad.Distancia km de ESIME Culhuacan</p>
-                    </div>
-                </div>
-            </div>
+            var primeraImagen = p.Imagenes.FirstOrDefault();
+            if (primeraImagen != null && primeraImagen.Imagen != null && primeraImagen.Imagen.Length > 0)
+            {
+                var base64 = Convert.ToBase64String(primeraImagen.Imagen);
+                var imgSrc = $"data:image/jpeg;base64,{base64}";
+                <img src="@imgSrc" alt="Imagen de la propiedad" />
+            }
         }
-    }
-    @if (Model.ListaDePropiedades == null) 
-    {
-        <p>No hay propiedades disponibles con esas características!</p>
-    }
-
+        <div class="card-body">
+            <h5 class="card-title">@p.Titulo</h5>
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            <a href="#" class="btn btn-primary">Go somewhere</a>
+        </div>
     </div>
+}
+<script>
+    $(document).ready(function() {
+        $('a[data-target]').on('click', function(e) {
+            e.preventDefault();
+            var target = $(this).data('target');
+            var url = $(this).data('url');
+            if (url) {
+                $(target).load(url);
+            }
+        });
+    });
+</script>

@@ -4,6 +4,7 @@ using System.Diagnostics;
 
 //Using agregado
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace PROYECTOISW.Controllers
 {
@@ -17,8 +18,15 @@ namespace PROYECTOISW.Controllers
             _logger = logger;
         }
         [HttpGet]
-        public IActionResult Index()
+        public IActionResult Index(Usuario imagen)
         {
+            var claimsIdentity = User.Identity as ClaimsIdentity;
+            var id = claimsIdentity?.FindFirst("Tipo")?.Value;
+            var foto = claimsIdentity?.FindFirst("UserPhoto")?.Value;
+            ViewBag.UserPhoto = $"data:image/jpeg;base64,{foto}";
+            var usuario = new Usuario();
+            usuario.Tipo = id;
+            ViewData["Usuario"] = usuario;
             return View();
         }
 
